@@ -1,0 +1,13 @@
+#游戏库,用于package name game name视图
+0 6 * * * python /root/bst-gamedatasync-zh/Code/main.py
+
+#转换游戏库游戏名
+0 3 * * * python /var/www/html/bst-server-zh/crontab/convert_pinyin.py >> /mnt/log/convert_pinyin.log 2>&1 &
+
+
+#统计数据
+5 0 * * * python /var/www/html/bst-datastats-zh/data2db/data2db.py >> /mnt/log/data2db.log 2>&1 &
+30 0 * * * python /var/www/html/master/bst-datastats-zh/data2db/scope2db.py >> /mnt/log/scope2db.log 2>&1 &
+
+#app user init to redis
+30 7 * * * python /var/www/html/master/bst-datastats-zh/crontab/app_user_init_2_redis.py >> /mnt/log/app_user_init_2_redis.log 2>&1 &
