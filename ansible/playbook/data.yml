@@ -1,0 +1,16 @@
+---
+- hosts: data
+  remote_user: root
+  tasks:
+
+    - name: git pull
+      git: repo=git@github.com:bluestacks/bst-datastats-zh.git
+           dest=/var/www/html/master/bst-datastats-zh
+           version=master
+
+    # python /var/www/html/preview_bst-server-zh/bst-server-zh/manage.py collectstatic --noinput 
+    - name: collectstatic
+      shell: python /var/www/html/master/bst-datastats-zh/manage.py collectstatic --noinput 
+
+    - name: restart httpd
+      service: name=httpd state=restarted

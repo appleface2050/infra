@@ -1,0 +1,16 @@
+# cat user.yml
+---
+- hosts: production
+  remote_user: root
+  tasks:
+
+    - name: git pull
+      git: repo=git@github.com:bluestacks/bst-server-zh.git
+           dest=/var/www/html/bst-server-zh
+           version=master
+
+    - name: collectstatic
+      shell: python /var/www/html/bst-server-zh/manage.py collectstatic --noinput 
+
+    - name: restart httpd
+      service: name=httpd state=restarted
